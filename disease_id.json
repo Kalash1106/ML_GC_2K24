@@ -1,10 +1,10 @@
 {
-    "MEL": 1,
-    "NV": 2,
-    "BCC": 3,
-    "AKIEC": 4,
-    "BKL": 5,
-    "DF" : 6,
-    "VASC" : 7
+    "MEL": 0,
+    "NV": 1,
+    "BCC": 2,
+    "AKIEC": 3,
+    "BKL": 4,
+    "DF" : 5,
+    "VASC" : 6
   }
   
