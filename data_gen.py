@@ -53,7 +53,8 @@ class ImageLabelDataset(Dataset):
 
 def make_dataset(image_folder, gt_file, mapping_file, img_size = (224, 224), test_size = 0.2):
    dataset = ImageLabelDataset(image_folder, gt_file, mapping_file, img_size)
-   train_dataset, test_dataset = random_split(dataset, [int(len(dataset) * (1 - test_size)), int(len(dataset) * test_size)])
+   test_datapoints= int(len(dataset) * test_size)
+   train_dataset, test_dataset = random_split(dataset, [len(dataset) - test_datapoints, test_datapoints])
    return {"train": train_dataset, 
            "test" : test_dataset}
 
@@ -61,5 +62,5 @@ if __name__ == "__main__":
     image_folder = r"data/KCDH2024_Training_Input_10K"
     gt_file = r"data/KCDH2024_Training_GroundTruth.csv"
     mapping_file = r"disease_id.json"
-    a, b = make_dataset(image_folder, gt_file, mapping_file)
+    data = make_dataset(image_folder, gt_file, mapping_file)
     
