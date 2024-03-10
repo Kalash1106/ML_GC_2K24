@@ -3,7 +3,7 @@ import torchvision.models as models
  
 def train(params, device, DataClass):
     num_classes = 7
-    model = models.resnet18(pretrained=False)
+    model = models.resnet18(params['pretrained'])
 
     #Adding the FC layer on top
     num_ftrs = model.fc.in_features
