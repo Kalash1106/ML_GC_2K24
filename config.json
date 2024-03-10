@@ -1,0 +1,12 @@
+{
+"image_folder" : "./data/KCDH2024_Training_Input_10K",
+"gt_file" : "./data/KCDH2024_Training_GroundTruth.csv",
+"mapping_file" : "disease_id.json",
+"img_size" : 224,
+"test_size" : 0.2,
+"num_epochs" : 10,
+"train_batch_size" : 32,
+"test_batch_size" : 32
+}
+
+
