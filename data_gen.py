@@ -27,9 +27,8 @@ class ImageLabelDataset(Dataset):
     self.image_folder = image_folder
     self.labels = simplify_ground_truth(gt_file, mapping_file)
     self.transform = transforms.Compose([
-                        #transforms.ToPILImage(),
                         transforms.Resize(img_size), 
-                        #transforms.ColorJitter(brightness=0.2, contrast=0.2, hue=0.1, saturation=0.2),
+                        transforms.ColorJitter(brightness=0.2, contrast=0.2, hue=0.1, saturation=0.2),
                         transforms.RandomRotation(degrees=90),
                         transforms.ToTensor(),
                         transforms.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225))
@@ -65,6 +64,7 @@ class DataUtility:
     dataset = ImageLabelDataset(self.image_folder, self.gt_file, self.mapping_file, self.img_size)
     test_datapoints= int(len(dataset) * self.test_size)
     train_dataset, test_dataset = random_split(dataset, [len(dataset) - test_datapoints, test_datapoints])
+
     self.dataset =  {"train": train_dataset, "test" : test_dataset}
     return self.dataset
   
@@ -76,10 +76,12 @@ class DataUtility:
      train_dataloader = DataLoader(self.dataset['train'], batch_size=train_batch_size, shuffle=True)
      test_dataloader = DataLoader(self.dataset['test'], batch_size=test_batch_size, shuffle=True)
      self.dataloader = {"train" : train_dataloader, "test" : test_dataloader}
-     return self.dataloader
 
-if __name__ == "__main__":
-    image_folder = r"data/KCDH2024_Training_Input_10K"
-    gt_file = r"data/KCDH2024_Training_GroundTruth.csv"
-    mapping_file = r"disease_id.json"
-    DataClass = DataUtility(image_folder, gt_file, mapping_file)
+     return self.dataloader
+  
+  def create(self, dataset = True, dataloader = True):
+    if dataset:
+      self.make_dataset()
+
+    if dataloader:
+       self.make_dataloader()
