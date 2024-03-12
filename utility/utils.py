@@ -1,5 +1,5 @@
 import numpy as np
-from data_gen import simplify_ground_truth
+from utility.data_gen import simplify_ground_truth
 
 
 def get_weigths(DataClass):
