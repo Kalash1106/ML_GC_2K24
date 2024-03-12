@@ -3,6 +3,7 @@ from torch.utils.data import Dataset, DataLoader, random_split
 from torchvision import transforms
 from PIL import Image
 import json
+import os
 
 def get_active_class(row, column_to_id):
     active_column = row[row == 1].index[0]
@@ -38,7 +39,8 @@ class ImageLabelDataset(Dataset):
 
   def __getitem__(self, idx):
     # Get image path based on index (assuming filenames correspond to labels)
-    image_path = r"{}\{}.jpg".format(self.image_folder, self.labels[idx]['image'])  # Modify extension if needed
+    img = self.labels[idx]['image'] + ".jpg"
+    image_path = os.path.join(self.image_folder, img)
     image = Image.open(image_path)
     image = image.convert('RGB')
     label = self.labels[idx]["class_id"]
@@ -78,9 +80,9 @@ class DataUtility:
 
      return self.dataloader
   
-  def create(self, dataset = True, dataloader = True):
+  def create(self, dataset = True, dataloader = True, batch_size = 32):
     if dataset:
       self.make_dataset()
 
     if dataloader:
-       self.make_dataloader()
+       self.make_dataloader(batch_size)

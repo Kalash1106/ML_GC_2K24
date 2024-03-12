@@ -5,6 +5,7 @@ from torchvision import transforms
 from PIL import Image
 import pandas as pd
 import numpy as np
+import os
 
 def get_list_from_csv(labels_file):
     with open(labels_file, newline='') as f:
@@ -28,7 +29,9 @@ class ImageLabelDataset(Dataset):
 
   def __getitem__(self, idx):
     # Get image path based on index (assuming filenames correspond to labels)
-    image_path = r"{}\{}.jpg".format(self.image_folder, self.labels[idx][0])  # Modify extension if needed
+    img = self.labels[idx][0] + ".jpg"
+    image_path = os.path.join(self.image_folder, img)
+    #image_path = r"{}\{}.jpg".format(self.image_folder, self.labels[idx][0])  # Modify extension if needed
     image = Image.open(image_path)
     image = image.convert('RGB')
     img_name = self.labels[idx][0]
@@ -55,7 +58,7 @@ class DataUtility:
      if self.dataset is None:
         self.make_dataset()
 
-     self.dataloader = DataLoader(self.dataset, batch_size=batch_size, shuffle=True)
+     self.dataloader = DataLoader(self.dataset, batch_size=batch_size, shuffle=False)
 
      return self.dataloader
   
