@@ -89,6 +89,28 @@ def generate_predictions(model, DataClass, device):
         
     predictions = predictions.cpu()
     return predictions.numpy().astype(np.int8), image_ids
+
+def make_NV_folders(model, params):
+  DataClassEval = DataUtility(params['eval_image_folder'], params['eval_labels'], params['img_size'])
+  DataClassEval.create(batch_size=batch_size)
+  
+  predictions, image_ids = generate_predictions(model, DataClassEval, device)
+    
+  yes_NV = os.path.join(params['output_folder_path'], 'NV')
+  no_NV = os.path.join(params['output_folder_path'], 'not_NV')
+  images_dir = os.path.join(params['eval_image_folder'], 'KCDH2024_Test_Input')
+  os.makedirs(yes_NV, exist_ok=True)
+  os.makedirs(no_NV, exist_ok=True)
+    
+  for image_id, prediction in zip(image_ids, predictions):
+    source_path = os.path.join(images_dir, f'{image_id}.jpg')
+    if prediction == 0:
+      target_path = os.path.join(not_NV, f'{image_id}.jpg')
+    else:
+      target_path = os.path.join(NV, f'{image_id}.jpg')
+        
+    # Move the file
+    shutil.move(source_path, target_path)
     
 
 def make_submission_csv(params, model, device = "cpu", csv_file_path = 'submission.csv', batch_size = 32):
