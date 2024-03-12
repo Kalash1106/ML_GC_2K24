@@ -1,13 +1,18 @@
 {
-"image_folder" : "data\\KCDH2024_Training_Input_10K",
-"gt_file" : "data\\KCDH2024_Training_GroundTruth.csv",
-"mapping_file" : "disease_id.json",
+"train_image_folder" : "data/KCDH2024_Training_Input_10K",
+"gt_file" : "data/KCDH2024_Training_GroundTruth.csv",
+"mapping_file" : "utility/disease_id.json",
+"eval_image_folder" : "data/KCDH2024_Test_Input",
+"eval_labels" : "data/eval_labels.csv",
+"model_path" : "weights/ResNet18",
+"submission_csv_path" : "submission.csv",
 "img_size" : 224,
-"test_size" : 0.2,
+"test_size" : 0.15,
 "pretrained" : 1,
 "num_epochs" : 10,
 "train_batch_size" : 32,
-"test_batch_size" : 32
+"test_batch_size" : 32,
+"eval_batch_size" : 32
 }
 
 
