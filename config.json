@@ -12,7 +12,8 @@
 "num_epochs" : 10,
 "train_batch_size" : 32,
 "test_batch_size" : 32,
-"eval_batch_size" : 32
+"eval_batch_size" : 32,
+"class_weights": [1.40, 1.0, 1.91, 2.36, 1.37, 5.0, 4.49]
 }
 
 

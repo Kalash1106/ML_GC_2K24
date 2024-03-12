@@ -14,5 +14,5 @@ def get_weigths(DataClass):
 
     # Calculate inverse frequencies
     inverse_frequencies = sum(counts) / counts
-    print(unique_elements, inverse_frequencies)
+    # print(unique_elements, inverse_frequencies)
     return inverse_frequencies
