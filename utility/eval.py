@@ -95,5 +95,5 @@ def make_submission_csv(params, model, device = "cpu", csv_file_path = 'submissi
     DataClassEval = DataUtility(params['eval_image_folder'], params['eval_labels'], params['img_size'])
     DataClassEval.create(batch_size=batch_size)
     predictions, image_ids = generate_predictions(model, DataClassEval, device)
-    submission_df = pd.DataFrame({'Image_ID': image_ids, 'Prediction': predictions})
+    submission_df = pd.DataFrame({'ID': image_ids, 'Class': predictions})
     submission_df.to_csv(csv_file_path, index=False)
