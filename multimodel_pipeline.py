@@ -6,6 +6,7 @@ from sklearn.metrics import recall_score
 
 import torch
 from torch.utils.data import Dataset
+from torch.optim.lr_scheduler import CyclicLR, ReduceLROnPlateau
 
 from PIL import Image
 from tqdm import tqdm
@@ -94,7 +95,14 @@ class CustomDataset(Dataset):
 
 
 def train_model(
-    model, train_dataloader, val_dataloader, criterion, optimizer, num_epochs, device
+    model,
+    train_dataloader,
+    val_dataloader,
+    criterion,
+    optimizer,
+    num_epochs,
+    device,
+    scheduler=None,
 ):
     model.to(device)
     best_accuracy = 0.0
@@ -159,6 +167,15 @@ def train_model(
         print(
             f"Epoch {epoch+1}/{num_epochs} - Validation, Loss: {val_epoch_loss:.4f}, Accuracy: {val_epoch_accuracy:.4f}, Average Recall: {recall:.4f}"
         )
+
+        if scheduler is not None:
+            # If scheduler requires a validation metric, pass it
+            if isinstance(scheduler, ReduceLROnPlateau):
+                scheduler.step(val_epoch_accuracy)
+            elif isinstance(scheduler, CyclicLR):
+                scheduler.step(val_epoch_loss)
+            else:
+                scheduler.step()
 
         # Check if this is the best model so far
         if val_epoch_accuracy > best_accuracy:
